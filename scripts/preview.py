@@ -24,16 +24,27 @@ for part,match,default in [('top',True,'over-size-t-shirt'),('bottom',False,'mil
  bundles=re.sub(r'(<select[^>]*data-studio-product="'+part+r'"[^>]*>).*?(</select>)',lambda m:m[1]+options+m[2],bundles,flags=re.S)
 presets=''.join(f'<button data-studio-preset="over-size-t-shirt,{handle}">{title} ↗</button>' for title,handle in [('The striped set','milano-striped-pants-dropping-next-week'),('The linen set','linen-pants-unisex'),('The city set','tailored-pants')])
 bundles=re.sub(r'{% for block.*?{% endfor %}',presets,bundles,flags=re.S)
+packs=read('bundle-packs')
+pack_options=''.join(f'<option value="{p["handle"]}" '+('selected' if p['handle']=='over-size-t-shirt' else '')+'>'+html.escape(p['title'])+'</option>' for p in P)
+packs=re.sub(r'(<select[^>]*data-pack-product[^>]*>).*?(</select>)',lambda m:m[1]+pack_options+m[2],packs,flags=re.S)
+tiers=''.join(f'<button type="button" data-pack-qty="{qty}" aria-pressed="'+('true' if qty==3 else 'false')+'" '+('class="active"' if qty==3 else '')+f'><strong>{qty}</strong><span>{label}</span><small data-tier-price>—</small></button>' for qty,label in [(1,'THE SINGLE'),(3,'THE ROTATION'),(6,'THE FULL WEEK')])
+packs=re.sub(r'{% for count.*?{% endfor %}',tiers,packs,flags=re.S)
+wild=read('in-the-wild');photos=json.loads((R/'data/wild-cards.json').read_text())
+wild_cards=''.join(f'<article class="wild-card"><a href="#product/{handle}" data-product="{handle}" aria-label="Shop {html.escape(by[handle]["title"])}"><img src="assets/{asset}" width="900" height="1200" alt="{caption}" loading="lazy"><span class="wild-shop">SHOP THIS LOOK <b>+</b></span></a><p>{caption}</p></article>' for asset,handle,caption in photos)
+wild=re.sub(r'{% for block.*?{% endfor %}',wild_cards,wild,flags=re.S)
 footer=read('footer');footer=re.sub(r'{% for policy.*?{% endfor %}','<a href="https://essaint.com/policies/shipping-policy" target="_blank" rel="noopener">Shipping policy ↗</a><a href="https://essaint.com/policies/refund-policy" target="_blank" rel="noopener">Exchanges ↗</a><a href="https://essaint.com/policies/privacy-policy" target="_blank" rel="noopener">Privacy policy ↗</a>',footer,flags=re.S)
 footer=re.sub(r"{% form 'customer' %}.*?{% endform %}",'<a class="text-link" style="margin-top:22px" href="https://essaint.com/#ContactFooter" target="_blank" rel="noopener">JOIN THE LIST AT ESSAINT.COM ↗</a>',footer,flags=re.S)
 footer=footer.replace('href="/pages/contact"','href="https://essaint.com/pages/contact" target="_blank" rel="noopener"')
 overlays=basic((R/'theme/snippets/overlays.liquid').read_text(encoding='utf-8'))
 page=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ESSAINT — Off duty. On purpose.</title><meta name="description" content="Essaint. Easy silhouettes, a different kind of presence. Shop tees, trousers and build your own everyday uniform."><link rel="stylesheet" href="assets/essaint.css"><script>window.Essaint={{preview:true,root:'/',currency:'USD'}};</script><script src="assets/catalog.js" defer></script><script src="assets/essaint.js" defer></script><script src="assets/studio.js" defer></script><script src="assets/preview.js" defer></script></head><body><a class="skip-link" href="#MainContent">Skip to content</a>{header}<main id="MainContent"><div id="home-view">{hero}{essentials}{bundles}{read('story')}</div><div id="route-view" class="preview-view" hidden></div></main>{footer}<aside class="preview-note">PRIVATE DESIGN PREVIEW · <a href="INSTALL.md">SHOPIFY INSTALLATION GUIDE</a> · Checkout activates on Shopify</aside>{overlays}</body></html>'''
+page=page.replace('<script src="assets/preview.js" defer></script>','<script src="assets/packs.js" defer></script><script src="assets/preview.js" defer></script>')
+page=page.replace('</head>','<link rel="stylesheet" href="assets/bundle-refinement.css"></head>')
+page=page.replace(bundles,packs+bundles).replace(read('story'),read('story')+wild)
 assert '{{' not in page and '{%' not in page
 (D/'index.html').write_text(page,encoding='utf-8')
 catalog=[]
 for p in P:
- v=[{**v,'price':round(float(v['price'])*100),'compare_at_price':round(float(v['compare_at_price'] or 0)*100)} for v in p['variants']]
+ v=[{**v,'price':round(float(v['price'])*100),'compare_at_price':round(float(v['compare_at_price'] or 0)*100),'featured_image':({**v['featured_image'],'src':'assets/'+next(x['local'] for x in p['images'] if x['id']==v['featured_image']['id'])} if v.get('featured_image') and any(x['id']==v['featured_image']['id'] for x in p['images']) else v.get('featured_image'))} for v in p['variants']]
  catalog.append({**p,'description':p['body_html'],'featured_image':'assets/'+p['images'][0]['local'],'images':['assets/'+x['local'] for x in p['images']],'variants':v,'card':card(p)})
 (D/'assets/catalog.js').write_text('window.EssaintCatalog='+json.dumps(catalog)+';',encoding='utf-8')
 shutil.copy(R/'preview/preview.js',D/'assets/preview.js')

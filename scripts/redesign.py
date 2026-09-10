@@ -20,3 +20,6 @@ shutil.copy(R/'data/essaint-campaign.jpg',R/'theme/assets/essaint-campaign-origi
 print('Applied Off Duty art direction to all storefront sections.')
 
 config=json.loads((R / "theme/config/settings_schema.json").read_text(encoding="utf-8"));config[0]["theme_name"]="Essaint Off Duty";config[0]["theme_version"]="2.0.0";write("theme/config/settings_schema.json",json.dumps(config,indent=2))
+
+import runpy
+runpy.run_path(str(R / "scripts/refine.py"))

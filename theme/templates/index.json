@@ -46,12 +46,69 @@
     },
     "3": {
       "type": "story"
+    },
+    "packs": {
+      "type": "bundle-packs"
+    },
+    "wild": {
+      "type": "in-the-wild",
+      "blocks": {
+        "0": {
+          "type": "photo",
+          "settings": {
+            "asset": "wild-1.jpg",
+            "product": "tailored-pants",
+            "caption": "Dressed for the day."
+          }
+        },
+        "1": {
+          "type": "photo",
+          "settings": {
+            "asset": "wild-2.jpg",
+            "product": "milano-striped-pants-dropping-next-week",
+            "caption": "Out after hours."
+          }
+        },
+        "2": {
+          "type": "photo",
+          "settings": {
+            "asset": "essaint-campaign-original.jpg",
+            "product": "skyline-striped-pants",
+            "caption": "Taking the slow way."
+          }
+        },
+        "3": {
+          "type": "photo",
+          "settings": {
+            "asset": "wild-3.jpg",
+            "product": "purple-stripped-pants",
+            "caption": "A little color. A lot of you."
+          }
+        },
+        "4": {
+          "type": "photo",
+          "settings": {
+            "asset": "wild-4.jpg",
+            "product": "pinstriped-pants",
+            "caption": "Everyday, elsewhere."
+          }
+        }
+      },
+      "block_order": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
     }
   },
   "order": [
     "0",
     "1",
+    "packs",
     "2",
-    "3"
+    "3",
+    "wild"
   ]
 }
