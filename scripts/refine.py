@@ -23,6 +23,3 @@ if "bundle-refinement.css" not in layout:layout=layout.replace("</head>","{{ 'bu
 write("theme/layout/theme.liquid",layout)
 
 config=json.loads((R / "theme/config/settings_schema.json").read_text(encoding="utf-8"));config[0]["theme_version"]="2.1.0";write("theme/config/settings_schema.json",json.dumps(config,indent=2))
-
-import runpy
-runpy.run_path(str(R / "scripts/motion.py"))
