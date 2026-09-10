@@ -22,5 +22,5 @@ $$('.native-product-form').forEach(form=>form.addEventListener('submit',e=>{e.pr
 $$('[data-variant-select]').forEach(s=>s.addEventListener('change',()=>{$('[data-product-price]').textContent=money(Number(s.selectedOptions[0].dataset.price))}));
 $('#search-input')?.addEventListener('input',e=>{clearTimeout(searchTimer);const q=e.target.value.trim();if(q.length<2){$('#search-results').innerHTML='';return}searchTimer=setTimeout(async()=>{try{const results=cfg.preview?window.EssaintCatalog.filter(p=>p.title.toLowerCase().includes(q.toLowerCase())).slice(0,6):(await request('search/suggest.json?q='+encodeURIComponent(q)+'&resources[type]=product&resources[limit]=6')).resources.results.products;if($('#search-input').value.trim()!==q)return;$('#search-results').innerHTML=results.length?results.map(p=>`<button class="search-hit" data-product="${esc(p.handle)}"><img src="${esc(p.featured_image?.url||p.featured_image||p.image)}" alt=""><span>${esc(p.title)}</span></button>`).join(''):'<p>No pieces found. Try “striped” or “tee”.</p>'}catch(e){$('#search-results').textContent=e.message}},250)});
 if(cfg.preview)saveBag();else getCart().then(c=>updateCount(c.item_count)).catch(()=>{});
-window.EssaintUI={quick,bundle,money,esc,addItems};
+window.EssaintUI={quick,bundle,money,esc,addItems,product};
 })();

@@ -4,3 +4,5 @@ node_modules/
 data/home.html
 data/tee.jpg
 data/stripe.png
+
+data/reference-*

@@ -1,7 +1,11 @@
 {
   "sections": {
     "0": {
-      "type": "hero"
+      "type": "hero",
+      "settings": {
+        "heading": "OFF DUTY.",
+        "subheading": "On purpose."
+      }
     },
     "1": {
       "type": "essentials"
@@ -12,7 +16,7 @@
         "0": {
           "type": "outfit",
           "settings": {
-            "title": "The off-duty pair",
+            "title": "The striped set",
             "top": "over-size-t-shirt",
             "bottom": "milano-striped-pants-dropping-next-week"
           }
@@ -20,7 +24,7 @@
         "1": {
           "type": "outfit",
           "settings": {
-            "title": "The slow-day set",
+            "title": "The linen set",
             "top": "over-size-t-shirt",
             "bottom": "linen-pants-unisex"
           }
@@ -28,7 +32,7 @@
         "2": {
           "type": "outfit",
           "settings": {
-            "title": "The city uniform",
+            "title": "The city set",
             "top": "over-size-t-shirt",
             "bottom": "tailored-pants"
           }

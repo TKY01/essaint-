@@ -67,3 +67,7 @@ section('main-404','''<section class="section prose"><p class="eyebrow">404 / A 
 section('list-collections','''<section class="section"><h1>The collections.</h1><div class="product-grid">{% for collection in collections %}<a href="{{ collection.url }}">{% if collection.image %}{{ collection.image | image_url: width: 800 | image_tag: loading: 'lazy' }}{% endif %}<h2>{{ collection.title }}</h2></a>{% endfor %}</div></section>''');template('list-collections',['list-collections'])
 write('theme/config/settings_schema.json',json.dumps([{'name':'theme_info','theme_name':'Essaint Atelier','theme_version':'1.0.0','theme_author':'Essaint','theme_documentation_url':'https://essaint.com','theme_support_url':'https://essaint.com/pages/contact'}],indent=2));write('theme/config/settings_data.json','{"current":{}}');write('theme/locales/en.default.json','{"general":{"accessibility":{"skip_to_content":"Skip to content"}}}')
 print('Built theme sections and catalog:',len(P),'products;',len(assets),'images')
+
+# Reapply the current storefront art direction after the base theme is generated.
+import runpy
+runpy.run_path(str(ROOT / "scripts/redesign.py"))
