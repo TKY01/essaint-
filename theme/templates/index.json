@@ -4,7 +4,8 @@
       "type": "hero",
       "settings": {
         "heading": "OFF DUTY.",
-        "subheading": "On purpose."
+        "subheading": "On purpose.",
+        "animate": true
       }
     },
     "1": {

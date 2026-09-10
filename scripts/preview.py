@@ -15,7 +15,10 @@ def card(p):
  kind='tees' if 't-shirt' in p['title'].lower() else 'bottoms'
  return f'<article class="product-card" data-kind="{kind}"><div class="product-media"><a class="product-photo" href="#product/{p["handle"]}"><img src="assets/{p["images"][0]["local"]}" alt="{title}" loading="lazy">{alternate}<span class="badge">{badge}</span></a><button class="quick-add" data-product="{p["handle"]}" aria-label="Choose options for {title}"><span>QUICK ADD</span><b>+</b></button></div><div class="product-meta"><a href="#product/{p["handle"]}">{title}</a><span>${price:.2f}'+(f'<s>${compare:.2f}</s>' if compare>price else '')+f'</span></div><p class="product-options">'+html.escape(' / '.join(p['options'][0]['values']))+'</p></article>'
 header=read('header').replace("{% render 'icon', name: 'search' %}",'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>')
-hero=read('hero').replace('{{ section.settings.heading }}','OFF DUTY.').replace('{{ section.settings.subheading }}','On purpose.');hero=re.sub(r'{% if section.settings.image != blank %}.*?{% else %}(.*?){% endif %}',r'\1',hero,flags=re.S)
+hero=read('hero').replace('{{ section.settings.heading }}','OFF DUTY.').replace('{{ section.settings.subheading }}','On purpose.')
+motion_media='<div class="hero-image" data-hero-media><img src="assets/campaign-01.png" width="1672" height="941" alt="Essaint white tee and pale blue striped trousers in an architectural campaign setting" fetchpriority="high"><video data-hero-video data-desktop="assets/essaint-hero-desktop.mp4" data-mobile="assets/essaint-hero-mobile.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></div>'
+hero=re.sub(r'<div class="hero-image" data-hero-media>.*?</div>',motion_media,hero,count=1,flags=re.S)
+hero=re.sub(r'{% if section.settings.image != blank %}.*?{% else %}(.*?){% endif %}',r'\1',hero,flags=re.S)
 essentials=read('essentials');order=[3,4,10,6]+[i for i in range(len(P)) if i not in [3,4,10,6]]
 essentials=re.sub(r'{% assign featured.*?{% endfor %}',''.join(card(P[i]) for i in order),essentials,flags=re.S)
 bundles=read('bundles')
@@ -39,6 +42,7 @@ overlays=basic((R/'theme/snippets/overlays.liquid').read_text(encoding='utf-8'))
 page=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ESSAINT — Off duty. On purpose.</title><meta name="description" content="Essaint. Easy silhouettes, a different kind of presence. Shop tees, trousers and build your own everyday uniform."><link rel="stylesheet" href="assets/essaint.css"><script>window.Essaint={{preview:true,root:'/',currency:'USD'}};</script><script src="assets/catalog.js" defer></script><script src="assets/essaint.js" defer></script><script src="assets/studio.js" defer></script><script src="assets/preview.js" defer></script></head><body><a class="skip-link" href="#MainContent">Skip to content</a>{header}<main id="MainContent"><div id="home-view">{hero}{essentials}{bundles}{read('story')}</div><div id="route-view" class="preview-view" hidden></div></main>{footer}<aside class="preview-note">PRIVATE DESIGN PREVIEW · <a href="INSTALL.md">SHOPIFY INSTALLATION GUIDE</a> · Checkout activates on Shopify</aside>{overlays}</body></html>'''
 page=page.replace('<script src="assets/preview.js" defer></script>','<script src="assets/packs.js" defer></script><script src="assets/preview.js" defer></script>')
 page=page.replace('</head>','<link rel="stylesheet" href="assets/bundle-refinement.css"></head>')
+page=page.replace('</head>','<link rel="stylesheet" href="assets/hero-motion.css"><script src="assets/hero-motion.js" defer></script></head>')
 page=page.replace(bundles,packs+bundles).replace(read('story'),read('story')+wild)
 assert '{{' not in page and '{%' not in page
 (D/'index.html').write_text(page,encoding='utf-8')

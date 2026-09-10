@@ -22,7 +22,13 @@ Product packs use the same live cart API and include one selected variant per pi
 
 ## Design assets
 
-The campaign hero `theme/assets/campaign-off-duty.png` is an AI-generated editorial scene based on Essaint's original outfit photography. It is not a claim about a real campaign location. The lookbook includes Essaint's original poolside campaign image; all product catalog images are unchanged. Competing brands' images were inspected for art direction only and are not included in the storefront. The hero can be replaced with an image picker in Shopify Customize.
+The hero now uses three redesigned campaign stills (`campaign-01.png` through `campaign-03.png`) and a seamless **15-second camera-motion film** made from those stills. It uses slow pans/zooms and crossfades; it is not live-action footage or generated body animation. Desktop delivery is 1600×900; mobile delivery is 720×1280. Both are silent H.264 MP4 files with fast-start metadata, bundled into the theme.
+
+In **Customize → Hero**, use **Animate the campaign hero** to enable/disable motion. The optional **Desktop video** and **Mobile video** pickers let you select replacement videos from Shopify Files. The packaged video is used when no override is selected. A custom image remains the poster/fallback. Pause/play is available on the hero; reduced-motion and data-saving preferences start with a still image and no automatic video download. A shopper can explicitly choose Play film. Video pauses offscreen and when the tab is hidden.
+
+`essaint-campaign-kit.zip` contains all three campaign images, both MP4 versions, and the video specification. `python scripts/render-hero.py` rebuilds both videos with FFmpeg; `node scripts/verify-motion.cjs` checks source selection, playback controls and motion/data-saving fallbacks. Files are intentionally kept below the hosting per-file limit.
+
+The current three campaign images, and the retained earlier `theme/assets/campaign-off-duty.png`, are AI-generated editorial scenes based on Essaint's original outfit photography. They are not claims about real campaign locations. The lookbook includes Essaint's original poolside campaign image; all product catalog images are unchanged. Competing brands' images were inspected for art direction only and are not included in the storefront.
 
 The staggered **In the Wild** cards use four photos already published in Essaint's Shop the Look section plus its original poolside campaign. Source URLs are in `data/wild.json`. Photo-card settings are in `data/wild-cards.json` and the homepage JSON template. The purple trouser photo links to the purple product; the sold-out state is retained.
 
