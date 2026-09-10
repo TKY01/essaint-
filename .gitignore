@@ -1,0 +1,6 @@
+node_modules/
+*.tar.gz
+*.zip
+data/home.html
+data/tee.jpg
+data/stripe.png

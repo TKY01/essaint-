@@ -1,0 +1,53 @@
+{
+  "sections": {
+    "0": {
+      "type": "hero"
+    },
+    "1": {
+      "type": "essentials"
+    },
+    "2": {
+      "type": "bundles",
+      "blocks": {
+        "0": {
+          "type": "outfit",
+          "settings": {
+            "title": "The off-duty pair",
+            "top": "over-size-t-shirt",
+            "bottom": "milano-striped-pants-dropping-next-week"
+          }
+        },
+        "1": {
+          "type": "outfit",
+          "settings": {
+            "title": "The slow-day set",
+            "top": "over-size-t-shirt",
+            "bottom": "linen-pants-unisex"
+          }
+        },
+        "2": {
+          "type": "outfit",
+          "settings": {
+            "title": "The city uniform",
+            "top": "over-size-t-shirt",
+            "bottom": "tailored-pants"
+          }
+        }
+      },
+      "block_order": [
+        "0",
+        "1",
+        "2"
+      ]
+    },
+    "3": {
+      "type": "story"
+    }
+  },
+  "order": [
+    "0",
+    "1",
+    "2",
+    "3"
+  ]
+}

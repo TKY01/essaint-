@@ -1,0 +1,7 @@
+{
+  "source": "https://essaint.com/products.json?limit=250",
+  "retrieved_at": "2026-09-10T07:28:36.445145+00:00",
+  "products": 12,
+  "variants": 66,
+  "notes": "Public storefront snapshot; inventory quantities and private Shopify fields are not exposed. Page 2 verified empty. Theme uses live Shopify data."
+}

@@ -1,0 +1,20 @@
+{
+  "name": "essaint",
+  "version": "1.0.0",
+  "description": "Essaint native Shopify theme and private storefront preview",
+  "scripts": {
+    "build": "python scripts/build.py && python scripts/preview.py && python scripts/package.py",
+    "test": "node scripts/verify.cjs",
+    "check": "shopify theme check --path theme",
+    "preview": "python -m http.server 4173 --directory dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@shopify/cli": "^4.8.0",
+    "jsdom": "^30.0.1",
+    "liquidjs": "^10.29.0"
+  }
+}
