@@ -3,52 +3,15 @@
     "0": {
       "type": "hero",
       "settings": {
-        "heading": "OFF DUTY.",
-        "subheading": "On purpose."
+        "heading": "Lebanese",
+        "subheading": "luxury wear"
       }
     },
     "1": {
       "type": "essentials"
     },
-    "2": {
-      "type": "bundles",
-      "blocks": {
-        "0": {
-          "type": "outfit",
-          "settings": {
-            "title": "The striped set",
-            "top": "over-size-t-shirt",
-            "bottom": "milano-striped-pants-dropping-next-week"
-          }
-        },
-        "1": {
-          "type": "outfit",
-          "settings": {
-            "title": "The linen set",
-            "top": "over-size-t-shirt",
-            "bottom": "linen-pants-unisex"
-          }
-        },
-        "2": {
-          "type": "outfit",
-          "settings": {
-            "title": "The city set",
-            "top": "over-size-t-shirt",
-            "bottom": "tailored-pants"
-          }
-        }
-      },
-      "block_order": [
-        "0",
-        "1",
-        "2"
-      ]
-    },
     "3": {
       "type": "story"
-    },
-    "packs": {
-      "type": "bundle-packs"
     },
     "wild": {
       "type": "in-the-wild",
@@ -90,7 +53,7 @@
           "settings": {
             "asset": "wild-4.jpg",
             "product": "pinstriped-pants",
-            "caption": "Everyday, elsewhere."
+            "caption": "Lebanese elsewhere."
           }
         }
       },
@@ -101,14 +64,20 @@
         "3",
         "4"
       ]
+    },
+    "collections": {
+      "type": "shop-by-collection"
+    },
+    "reviews": {
+      "type": "customer-reviews"
     }
   },
   "order": [
     "0",
     "1",
-    "packs",
-    "2",
+    "collections",
     "3",
-    "wild"
+    "wild",
+    "reviews"
   ]
 }

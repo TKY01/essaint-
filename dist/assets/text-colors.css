@@ -1,0 +1,13 @@
+:root { --ink: #161d40; --muted: #161d40; }
+body, h1, h2, h3, h4, h5, h6, input, select, textarea, option { color: #161d40; }
+.product-meta, .product-meta > a, .product-options,
+.product-details h1, .product-details .price,
+.collection h1, .bestsellers h2, .collection-carousel h2,
+.brand-story h2, .brand-story-text p,
+.wild-section .section-heading h2,
+.category-rail a, .category-rail span,
+.filter-bar, .filter-chips button, .linen-tier,
+.linen-tier-rate, .linen-summary { color: #161d40; }
+/* Preserve contrast for text placed on navy surfaces and photography. */
+.hero .hero-slogan h1, .compact-footer h2, .compact-footer h3,
+.footer-signup .email-field input { color: #fffaf2; }

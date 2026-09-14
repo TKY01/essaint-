@@ -1,0 +1,22 @@
+<div class="product-swatches" aria-label="Product colors">
+  {% assign has_colors = false %}
+  {% for option in product.options_with_values %}
+    {% assign option_name = option.name | downcase %}
+    {% if option_name == 'color' or option_name == 'colour' %}
+      {% assign has_colors = true %}
+      {% for value in option.values %}
+        <span class="product-swatch swatch--{{ value | handleize }}" role="img" aria-label="{{ value | escape }}" title="{{ value | escape }}"></span>
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  {% unless has_colors %}
+    {% case product.handle %}
+      {% when 'skyline-striped-pants' %}
+        <span class="product-swatch swatch--blue-striped" role="img" aria-label="Blue and white stripes" title="Blue and white stripes"></span>
+      {% when 'milano-striped-pants-dropping-next-week' %}
+        <span class="product-swatch swatch--black-striped" role="img" aria-label="Black and white stripes" title="Black and white stripes"></span>
+      {% when 'pinstriped-pants' %}
+        <span class="product-swatch swatch--navy-striped" role="img" aria-label="Navy pinstripes" title="Navy pinstripes"></span>
+    {% endcase %}
+  {% endunless %}
+</div>

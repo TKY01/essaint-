@@ -1,0 +1,30 @@
+.announcement[data-rotating] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  text-align: center;
+  min-height: 36px;
+  padding: 9px 12px;
+  font-size: clamp(10px, 2.7vw, 12px);
+  line-height: 1.5;
+}
+.announcement[data-rotating] > span {
+  display: block;
+  grid-area: 1 / 1;
+  opacity: 0;
+  animation: announcement-cycle 12s infinite;
+}
+.announcement[data-rotating] > span:nth-child(2) { animation-delay: 4s; }
+.announcement[data-rotating] > span:nth-child(3) { animation-delay: 8s; }
+@keyframes announcement-cycle {
+  0%, 29% { opacity: 1; transform: translateY(0); }
+  33.333%, 96% { opacity: 0; transform: translateY(-3px); }
+  96.01%, 100% { opacity: 0; transform: translateY(3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .announcement[data-rotating] > span { animation-name: announcement-cycle-still; }
+}
+@keyframes announcement-cycle-still {
+  0%, 33.32% { opacity: 1; }
+  33.333%, 100% { opacity: 0; }
+}

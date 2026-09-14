@@ -5,7 +5,7 @@ A native Shopify Online Store 2.0 theme, plus a private static design preview. T
 ## Install on the existing Essaint store
 
 1. In Shopify Admin, open **Online Store → Themes → Add theme → Upload ZIP file** and upload `essaint-shopify-theme.zip`.
-2. Keep it unpublished and open **Customize**. Set the featured collection under **Essentials**. Edit the hero image and headline as desired.
+2. Keep it unpublished and open **Customize**. Set the collection under **Best sellers** to a Shopify collection sorted by **Best selling**. Without a selection, the theme uses the six product handles recorded in `data/bestsellers.json` from the public best-selling collection order. Edit the hero headline as desired.
 3. Under **Bundles**, set the tops and bottoms collections (both default to all products). The outfit studio allows shoppers to select a T-shirt and a trouser style, then each variant. Check the three suggested outfit blocks, which contain editable product references matching existing Essaint handles.
    Under **Product packs**, choose the available-products collection. Shoppers can select 1, 3, or 6 units and configure the size/color of each separately. Under **In the Wild**, edit the five photo cards, their image pickers, captions and linked products.
 4. Assign the `contact` template to your Contact page. Review shipping/refund policies and newsletter settings in Shopify Admin.
@@ -22,7 +22,7 @@ Product packs use the same live cart API and include one selected variant per pi
 
 ## Design assets
 
-The campaign hero `theme/assets/campaign-off-duty.png` is an AI-generated editorial scene based on Essaint's original outfit photography. It is not a claim about a real campaign location. The lookbook includes Essaint's original poolside campaign image; all product catalog images are unchanged. Competing brands' images were inspected for art direction only and are not included in the storefront. The hero can be replaced with an image picker in Shopify Customize.
+The hero uses the supplied Essaint campaign video with H.264, original 30 fps, mild sharpening, no audio, and MP4 fast-start. Phones load the 576 x 1024 portrait version (1.27 MB); desktop loads a 1440 x 900 version (1.49 MB) with a softly extended background that keeps the subject visible while filling the hero. Only the matching video is loaded. Matching JPEG posters show a seated frame while loading. Playback loops silently, pauses offscreen or in hidden tabs, and has no visible controls. Reduced-motion visitors see a static poster without downloading the video. The lookbook includes original Essaint campaign photography; product catalog images are unchanged.
 
 The staggered **In the Wild** cards use four photos already published in Essaint's Shop the Look section plus its original poolside campaign. Source URLs are in `data/wild.json`. Photo-card settings are in `data/wild-cards.json` and the homepage JSON template. The purple trouser photo links to the purple product; the sold-out state is retained.
 
@@ -46,3 +46,7 @@ The CSV intentionally creates drafts and omits unknown inventory quantities. Bef
 The Shopify theme is the deployment artifact. Sites hosts the review preview only. No Shopify store credentials were provided, so installation, actual checkout, admin discount setup and live Shopify rendering must be verified in the destination store.
 
 Source: https://essaint.com/products.json?limit=250 and https://essaint.com/ . Shopify references: https://shopify.dev/docs/storefronts/themes/architecture and https://shopify.dev/docs/api/ajax/reference/cart .
+
+## Linen Pants preview offer
+
+The local Linen Pants product page offers 1 pair for $36, 2 for $33 each ($66), or 3 for $32 each ($96). Each pair can use a different size/color. The preview bag recalculates the Linen Pants unit price from the combined quantity across variants and preserves it after reload. This is a local preview promotion; Shopify checkout needs corresponding server-side automatic discounts or a discount function configured before the offer is published live. The production product template continues to use Shopify prices.

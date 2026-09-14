@@ -1,0 +1,28 @@
+.customer-reviews { padding: clamp(44px, 6vw, 88px) var(--pad) 40px; background: var(--paper); color: #161d40; }
+.reviews-heading { text-align: center; margin-bottom: 32px; }
+.customer-reviews .eyebrow { font-size: 10px; letter-spacing: .22em; margin-bottom: 16px; color: #161d40; }
+.customer-reviews h2 { font-family: var(--body); font-size: clamp(30px, 3.5vw, 48px); font-weight: 400; letter-spacing: -.04em; line-height: 1.15; color: #161d40; }
+.reviews-count strong { font-weight: 500; }
+.reviews-grid { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; gap: 24px; max-width: 960px; margin-inline: auto; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-inline: contain; scrollbar-width: none; border-top: 1px solid #161d401a; border-bottom: 1px solid #161d401a; }
+.reviews-grid::-webkit-scrollbar { display: none; }
+.review-card { scroll-snap-align: start; min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0; padding: 44px clamp(24px, 7vw, 100px); min-height: 260px; text-align: center; }
+.review-card blockquote { margin: 0 0 28px; max-width: 700px; font-size: clamp(24px, 2.5vw, 36px); font-weight: 400; line-height: 1.45; letter-spacing: -.025em; text-wrap: balance; }
+.review-card figcaption { font-size: 12px; font-weight: 500; }
+.review-card small { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 8px; font-size: 10px; font-weight: 400; letter-spacing: .04em; }
+.review-card small:before { content: '\2713'; display: grid; place-items: center; width: 13px; height: 13px; border: 1px solid #161d4040; border-radius: 50%; font-size: 8px; }
+.reviews-pagination { display: flex; justify-content: center; gap: 2px; margin-top: 14px; }
+.reviews-pagination button { width: 36px; min-height: 44px; display: grid; place-items: center; }
+.reviews-pagination button span { width: 6px; height: 6px; border-radius: 50%; background: #161d4033; transition: width .2s; }
+.reviews-pagination button[aria-pressed="true"] span { width: 22px; border-radius: 5px; background: #161d40; }
+.reviews-bottom { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 36px; margin-top: 8px; }
+.reviews-bottom a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 11px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #161d4040; }
+@media (max-width: 760px) {
+  .customer-reviews { padding-block: 44px 32px; }
+  .reviews-heading { margin-bottom: 24px; }
+  .customer-reviews h2 { font-size: clamp(28px, 7.5vw, 38px); }
+  .review-card { padding: 30px 12px; min-height: 244px; }
+  .review-card blockquote { font-size: clamp(23px, 6vw, 28px); margin-bottom: 24px; }
+  .reviews-bottom { gap: 0 20px; }
+  .reviews-bottom a { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .reviews-pagination button span { transition: none; } }

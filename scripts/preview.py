@@ -14,21 +14,15 @@ def card(p):
  alternate=f'<img class="alternate" src="assets/{p["images"][1]["local"]}" alt="{title}" loading="lazy">' if len(p['images'])>1 else ''
  kind='tees' if 't-shirt' in p['title'].lower() else 'bottoms'
  return f'<article class="product-card" data-kind="{kind}"><div class="product-media"><a class="product-photo" href="#product/{p["handle"]}"><img src="assets/{p["images"][0]["local"]}" alt="{title}" loading="lazy">{alternate}<span class="badge">{badge}</span></a><button class="quick-add" data-product="{p["handle"]}" aria-label="Choose options for {title}"><span>QUICK ADD</span><b>+</b></button></div><div class="product-meta"><a href="#product/{p["handle"]}">{title}</a><span>${price:.2f}'+(f'<s>${compare:.2f}</s>' if compare>price else '')+f'</span></div><p class="product-options">'+html.escape(' / '.join(p['options'][0]['values']))+'</p></article>'
+def bestseller_card(p):
+ colors=next((o['values'] for o in p['options'] if o['name'].lower() in ['color','colour']),[])
+ if not colors: colors={'skyline-striped-pants':['Blue striped'],'milano-striped-pants-dropping-next-week':['Black striped'],'pinstriped-pants':['Navy striped']}.get(p['handle'],[])
+ swatches='<div class="product-swatches" aria-label="Product colors">'+''.join('<span class="product-swatch swatch--'+re.sub(r'[^a-z0-9]+','-',color.lower())+'" role="img" aria-label="'+html.escape(color,quote=True)+'" title="'+html.escape(color,quote=True)+'"></span>' for color in colors)+'</div>'
+ return re.sub(r'<p class="product-options">.*?</p>',swatches,card(p))
 header=read('header').replace("{% render 'icon', name: 'search' %}",'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>')
-hero=read('hero').replace('{{ section.settings.heading }}','OFF DUTY.').replace('{{ section.settings.subheading }}','On purpose.');hero=re.sub(r'{% if section.settings.image != blank %}.*?{% else %}(.*?){% endif %}',r'\1',hero,flags=re.S)
-essentials=read('essentials');order=[3,4,10,6]+[i for i in range(len(P)) if i not in [3,4,10,6]]
-essentials=re.sub(r'{% assign featured.*?{% endfor %}',''.join(card(P[i]) for i in order),essentials,flags=re.S)
-bundles=read('bundles')
-for part,match,default in [('top',True,'over-size-t-shirt'),('bottom',False,'milano-striped-pants-dropping-next-week')]:
- options=''.join(f'<option value="{p["handle"]}" '+('selected' if p['handle']==default else '')+'>'+html.escape(p['title'])+'</option>' for p in P if ('t-shirt' in p['title'].lower())==match)
- bundles=re.sub(r'(<select[^>]*data-studio-product="'+part+r'"[^>]*>).*?(</select>)',lambda m:m[1]+options+m[2],bundles,flags=re.S)
-presets=''.join(f'<button data-studio-preset="over-size-t-shirt,{handle}">{title} ↗</button>' for title,handle in [('The striped set','milano-striped-pants-dropping-next-week'),('The linen set','linen-pants-unisex'),('The city set','tailored-pants')])
-bundles=re.sub(r'{% for block.*?{% endfor %}',presets,bundles,flags=re.S)
-packs=read('bundle-packs')
-pack_options=''.join(f'<option value="{p["handle"]}" '+('selected' if p['handle']=='over-size-t-shirt' else '')+'>'+html.escape(p['title'])+'</option>' for p in P)
-packs=re.sub(r'(<select[^>]*data-pack-product[^>]*>).*?(</select>)',lambda m:m[1]+pack_options+m[2],packs,flags=re.S)
-tiers=''.join(f'<button type="button" data-pack-qty="{qty}" aria-pressed="'+('true' if qty==3 else 'false')+'" '+('class="active"' if qty==3 else '')+f'><strong>{qty}</strong><span>{label}</span><small data-tier-price>—</small></button>' for qty,label in [(1,'THE SINGLE'),(3,'THE ROTATION'),(6,'THE FULL WEEK')])
-packs=re.sub(r'{% for count.*?{% endfor %}',tiers,packs,flags=re.S)
+hero=read('hero').replace('{{ section.settings.seasonal_link | default: routes.all_products_collection_url }}','#shop').replace('{{ section.settings.heading | escape }}','Lebanese').replace('{{ section.settings.subheading | escape }}','luxury wear');hero=re.sub(r'{% if section.settings.image != blank %}.*?{% else %}(.*?){% endif %}',r'\1',hero,flags=re.S)
+essentials=read('essentials');bestsellers=json.loads((R/'data/bestsellers.json').read_text())['handles']
+essentials=re.sub(r'{% assign featured.*', ''.join(bestseller_card(by[handle]) for handle in bestsellers if handle in by)+'</div></section>', essentials, flags=re.S)
 wild=read('in-the-wild');photos=json.loads((R/'data/wild-cards.json').read_text())
 wild_cards=''.join(f'<article class="wild-card"><a href="#product/{handle}" data-product="{handle}" aria-label="Shop {html.escape(by[handle]["title"])}"><img src="assets/{asset}" width="900" height="1200" alt="{caption}" loading="lazy"><span class="wild-shop">SHOP THIS LOOK <b>+</b></span></a><p>{caption}</p></article>' for asset,handle,caption in photos)
 wild=re.sub(r'{% for block.*?{% endfor %}',wild_cards,wild,flags=re.S)
@@ -36,12 +30,23 @@ footer=read('footer');footer=re.sub(r'{% for policy.*?{% endfor %}','<a href="ht
 footer=re.sub(r"{% form 'customer' %}.*?{% endform %}",'<a class="text-link" style="margin-top:22px" href="https://essaint.com/#ContactFooter" target="_blank" rel="noopener">JOIN THE LIST AT ESSAINT.COM ↗</a>',footer,flags=re.S)
 footer=footer.replace('href="/pages/contact"','href="https://essaint.com/pages/contact" target="_blank" rel="noopener"')
 overlays=basic((R/'theme/snippets/overlays.liquid').read_text(encoding='utf-8'))
-page=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ESSAINT — Off duty. On purpose.</title><meta name="description" content="Essaint. Easy silhouettes, a different kind of presence. Shop tees, trousers and build your own everyday uniform."><link rel="stylesheet" href="assets/essaint.css"><script>window.Essaint={{preview:true,root:'/',currency:'USD'}};</script><script src="assets/catalog.js" defer></script><script src="assets/essaint.js" defer></script><script src="assets/studio.js" defer></script><script src="assets/preview.js" defer></script></head><body><a class="skip-link" href="#MainContent">Skip to content</a>{header}<main id="MainContent"><div id="home-view">{hero}{essentials}{bundles}{read('story')}</div><div id="route-view" class="preview-view" hidden></div></main>{footer}<aside class="preview-note">PRIVATE DESIGN PREVIEW · <a href="INSTALL.md">SHOPIFY INSTALLATION GUIDE</a> · Checkout activates on Shopify</aside>{overlays}</body></html>'''
-page=page.replace('<script src="assets/preview.js" defer></script>','<script src="assets/packs.js" defer></script><script src="assets/preview.js" defer></script>')
+page=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ESSAINT — Off duty. On purpose.</title><meta name="description" content="Essaint. Easy silhouettes, a different kind of presence. Shop tees, trousers and build your own everyday uniform."><link rel="stylesheet" href="assets/essaint.css"><script>window.Essaint={{preview:true,root:'/',currency:'USD'}};</script><script src="assets/catalog.js" defer></script><script src="assets/linen-offer.js" defer></script><script src="assets/essaint.js" defer></script><script src="assets/studio.js" defer></script><script src="assets/preview.js" defer></script></head><body><a class="skip-link" href="#MainContent">Skip to content</a>{header}<main id="MainContent"><div id="home-view">{hero}{essentials}{read('shop-by-collection')}{read('story')}</div><div id="route-view" class="preview-view" hidden></div></main>{footer}<aside class="preview-note">PRIVATE DESIGN PREVIEW · <a href="INSTALL.md">SHOPIFY INSTALLATION GUIDE</a> · Checkout activates on Shopify</aside>{overlays}</body></html>'''
 page=page.replace('</head>','<link rel="stylesheet" href="assets/bundle-refinement.css"></head>')
 page=page.replace('</head>','<link rel="stylesheet" href="assets/mobile.css"></head>')
 page=page.replace('width=device-width,initial-scale=1"','width=device-width,initial-scale=1,viewport-fit=cover"')
-page=page.replace(bundles,packs+bundles).replace(read('story'),read('story')+wild)
+page=page.replace('</section><div class="service-strip">', '</section>'+wild+read('customer-reviews')+'<div class="service-strip">')
+page=page.replace('</head>','<link rel="stylesheet" href="assets/logo.css"></head>')
+page=page.replace('</head>',"<link rel=\"stylesheet\" href=\"assets/hero-video.css\"><script src=\"assets/hero-video.js\" defer></script></head>")
+page=page.replace('</head>','<link rel="stylesheet" href="assets/announcement.css"></head>')
+page=page.replace('</head>','<link rel="stylesheet" href="assets/bestsellers.css"></head>')
+page=page.replace('</head>','<link rel="stylesheet" href="assets/linen-offer.css"></head>')
+page=page.replace('</head>','<link rel="stylesheet" href="assets/brand-story.css"></head>')
+page=page.replace('</head>','<link rel="stylesheet" href="assets/footer.css"></head>')
+page=page.replace('</head>',"<link rel=\"stylesheet\" href=\"assets/collection-carousel.css\"><script src=\"assets/collection-carousel.js\" defer></script></head>")
+page=page.replace('</head>','<link rel="stylesheet" href="assets/text-colors.css"></head>')
+page=re.sub(r'href="(assets/[^"?]+\.css)(?:\?[^"]*)?"',r'href="\1?v=navy-text-2"',page)
+page=page.replace('</head>','<link rel="stylesheet" href="assets/glass-header.css?v=1"></head>')
+page=page.replace('</head>','<link rel="stylesheet" href="assets/customer-reviews.css"></head>')
 assert '{{' not in page and '{%' not in page
 (D/'index.html').write_text(page,encoding='utf-8')
 catalog=[]

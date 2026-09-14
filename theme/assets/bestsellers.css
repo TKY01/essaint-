@@ -1,0 +1,29 @@
+.bestsellers { padding: clamp(44px, 6vw, 88px) var(--pad); }
+.bestsellers .section-heading { align-items: end; margin-bottom: 36px; }
+.bestsellers .eyebrow { font-size: 10px; letter-spacing: .2em; margin-bottom: 14px; }
+.bestsellers h2 { font-family: var(--body); font-size: clamp(30px, 3.3vw, 48px); font-weight: 400; line-height: 1.1; letter-spacing: -.035em; }
+.bestsellers .text-link { font-size: 12px; font-weight: 500; }
+.bestsellers [data-bestseller-grid] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.bestsellers .product-media { background: #efeee9; border-radius: 3px; overflow: hidden; }
+.bestsellers .product-photo { aspect-ratio: 3 / 4; }
+.bestsellers .product-meta { margin-top: 18px; font-size: 13px; line-height: 1.5; }
+.bestsellers .product-meta > a { font-weight: 500; }
+.bestsellers .product-swatches { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-top: 12px; min-height: 18px; }
+.bestsellers .product-swatch { display: block; width: 16px; height: 16px; border-radius: 50%; background: var(--swatch, #d4d0c9); border: 1px solid #161d4033; box-shadow: 0 0 0 2px var(--paper); }
+.swatch--black { --swatch: #202020; }
+.swatch--white { --swatch: #ffffff; }
+.swatch--beige { --swatch: #cdbb9b; }
+.swatch--mocha { --swatch: #8b6d59; }
+.swatch--off-white { --swatch: #eee9da; }
+.swatch--dark-grey { --swatch: #555554; }
+.swatch--blue-striped { --swatch: repeating-linear-gradient(90deg, #f6f5ef 0 2px, #6282b2 2px 4px); }
+.swatch--black-striped { --swatch: repeating-linear-gradient(90deg, #f6f5ef 0 2px, #25262a 2px 4px); }
+@media (max-width: 760px) {
+  .bestsellers .section-heading { gap: 16px; margin-bottom: 24px; }
+  .bestsellers .text-link { font-size: 11px; white-space: nowrap; }
+  .bestsellers [data-bestseller-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; }
+  .bestsellers .product-meta { flex-direction: column; gap: 3px; margin-top: 12px; font-size: 12px; }
+}
+
+.swatch--gray, .swatch--grey { --swatch: #85858a; }
+.swatch--navy-striped { --swatch: repeating-linear-gradient(90deg, #161d40 0 4px, #b7bccb 4px 5px); }

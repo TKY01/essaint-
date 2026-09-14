@@ -1,0 +1,8 @@
+/* Original vector lettering from the supplied logo PDF. */
+.header .wordmark { display: block; width: 190px; line-height: 0; }
+.wordmark img, .footer-wordmark img { display: block; width: 100%; height: auto; }
+.footer .footer-wordmark { width: min(100%, 960px); line-height: 0; margin: 60px auto 30px; }
+@media (max-width: 760px) {
+  .header .wordmark { width: 150px; }
+  .footer .footer-wordmark { margin: 42px auto 25px; }
+}
